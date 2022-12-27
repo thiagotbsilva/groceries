@@ -46,35 +46,41 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _listsWidget() {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return GestureDetector(
-      onTap: () {},
-      child: Observer(
-          builder: (_) {
-            return SizedBox(
-              height: height,
-              width: width,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height:height * .82,
-                    child: ListView.builder(
-                        itemCount: singletonControler.groceriesList.length,
-                        itemBuilder: (context, index) {
-                          return _listItem(index);
-                        }),
+    return Observer(
+        builder: (_) {
+          int itensQtd = singletonControler.groceriesList.length;
+          return SizedBox(
+            height: height,
+            width: width,
+            child: Column(
+              children: [
+                SizedBox(
+                  height:height * .82,
+                  child: itensQtd > 0
+                      ? ListView.builder(
+                      itemCount: itensQtd,
+                      itemBuilder: (context, index) {
+                        return _listItem(index);
+                      })
+                      : Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+                        child: const Text(
+                          'Clique no botão abaixo para fazer sua primeira lista',
+                            textAlign: TextAlign.center
+                        )
+                      ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white, backgroundColor: Colors.blue, // foreground
                   ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white, backgroundColor: Colors.blue, // foreground
-                    ),
-                    onPressed: () => _listDialog(context),
-                    child: const Text('Nova Lista'),
-                  ),
-                ],
-              ),
-            );
-          }
-      ),
+                  onPressed: () => _listDialog(context),
+                  child: const Text('Nova Lista'),
+                ),
+              ],
+            ),
+          );
+        }
     );
   }
 
@@ -155,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
       singletonControler.setNewItem(_listController.text, DateTime.now());
       _listController.text = '';
     }
-    Future.delayed(const Duration(milliseconds: 200), () {
+    Future.delayed(const Duration(milliseconds: 400), () {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => GroceryScreen(

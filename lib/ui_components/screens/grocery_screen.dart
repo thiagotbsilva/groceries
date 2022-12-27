@@ -43,37 +43,49 @@ class _GroceryScreenState extends State<GroceryScreen> {
   Widget _screenList() {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: SizedBox(
-        height: height,
-        width: width,
+    return SizedBox(
+      height: height,
+      width: width,
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Column(
           children: [
             Observer(
               builder: (_) {
+                int productsQtd = groceryController.itemsList.length;
                 return SizedBox(
                   height:height * .81,
-                  child: ListView.builder(
-                      itemCount: groceryController.itemsList.length,
-                      itemBuilder: (context, index) {
-                        return GroceryItem(
-                            groceryController: groceryController,
-                            index: index);
-                      }),
+                  child: productsQtd > 0
+                      ? ListView.builder(
+                        itemCount: productsQtd,
+                        itemBuilder: (context, index) {
+                          return GroceryItem(
+                              groceryController: groceryController,
+                              index: index);
+                      })
+                      : Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 30),
+                        child: const Text(
+                            'Nenhum produto na lista',
+                          textAlign: TextAlign.center
+                      )
+                  ),
                 );
               }
             ),
             Center(
                 child: Observer(
                     builder: (_) {
-                      return Text(
-                        'Total Compra: '
-                            '${NumberFormat.simpleCurrency(locale: 'pt_BR', decimalDigits: 2)
-                            .format(groceryController.totalPrice)}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
+                      return Container(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Text(
+                          'Total Compra: '
+                              '${NumberFormat.simpleCurrency(locale: 'pt_BR', decimalDigits: 2)
+                              .format(groceryController.totalPrice)}',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
                       );
                     })
             ),
