@@ -96,17 +96,20 @@ class _GroceryItemState extends State<GroceryItem> {
                 ],
               ),
               Container(
-                margin: const EdgeInsets.only(right: 15, top: 10, bottom: 20),
-                child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Observer(
+                margin: const EdgeInsets.fromLTRB(10, 15, 15, 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _deleteIcon(),
+                    Observer(
                         builder: (_) {
                           return Text(
                             'Total item: '
                                 '${NumberFormat.simpleCurrency(locale: 'pt_BR', decimalDigits: 2)
                                 .format(widget.groceryController.itemsList[widget.index].parcialPrice)}',
                           );
-                        })
+                        }),
+                  ],
                 ),
               ),
               Divider(
@@ -116,6 +119,25 @@ class _GroceryItemState extends State<GroceryItem> {
             ],
           );
         }
+    );
+  }
+
+  Widget _deleteIcon() {
+    return InkWell(
+      onTap: () {
+        widget.groceryController.deleteProduct(widget.index);
+      },
+      splashColor: Colors.grey[200],
+      child: Container(
+        padding: const EdgeInsets.all(6),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
+            color: Colors.grey[200]),
+        child: const Icon(
+          Icons.delete_forever,
+          size: 20,
+        ),
+      ),
     );
   }
 

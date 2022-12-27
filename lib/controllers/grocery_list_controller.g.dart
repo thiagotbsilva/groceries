@@ -40,6 +40,17 @@ mixin _$GroceryListController on GroceryListControllerBase, Store {
   }
 
   @override
+  dynamic deleteProduct(int index) {
+    final _$actionInfo = _$GroceryListControllerBaseActionController
+        .startAction(name: 'GroceryListControllerBase.deleteProduct');
+    try {
+      return super.deleteProduct(index);
+    } finally {
+      _$GroceryListControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic sumUpTotalPrice() {
     final _$actionInfo = _$GroceryListControllerBaseActionController
         .startAction(name: 'GroceryListControllerBase.sumUpTotalPrice');

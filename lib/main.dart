@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_project_test/ui_components/screens/grocery_screen.dart';
+import 'package:new_project_test/ui_components/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Nova Compra'),
+      home: const HomeScreen(),
     );
   }
 }

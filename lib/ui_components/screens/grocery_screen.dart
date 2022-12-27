@@ -4,26 +4,32 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import '../widgets/grocery_item.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class GroceryScreen extends StatefulWidget {
+  const GroceryScreen({super.key, required this.groceryList});
 
-  final String title;
+  final GroceryListController groceryList;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<GroceryScreen> createState() => _GroceryScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _GroceryScreenState extends State<GroceryScreen> {
 
-  GroceryListController groceryController = GroceryListController();
+  late GroceryListController groceryController;
   final TextEditingController _productController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    groceryController = widget.groceryList;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(groceryController.listName),
       ),
       body: _screenList(),
       floatingActionButton: FloatingActionButton(

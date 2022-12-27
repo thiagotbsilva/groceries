@@ -6,6 +6,11 @@ class GroceryListController = GroceryListControllerBase with _$GroceryListContro
 
 abstract class GroceryListControllerBase with Store {
 
+  GroceryListControllerBase(this.listName, this.date);
+
+  final String listName;
+  final DateTime date;
+
   ObservableList<ProductItemController> itemsList = ObservableList<ProductItemController>();
 
   @observable
@@ -14,6 +19,11 @@ abstract class GroceryListControllerBase with Store {
   @action
   setNewItem(String productName) {
     itemsList.add(ProductItemController(productName));
+  }
+
+  @action
+  deleteProduct(int index) {
+    itemsList.removeAt(index);
   }
 
   @action
