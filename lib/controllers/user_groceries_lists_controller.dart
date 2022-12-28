@@ -17,6 +17,22 @@ abstract class _UserListsControllerBase with Store {
   deleteItem(int index) {
     groceriesList.removeAt(index);
   }
+
+  fromJson(Map<String, dynamic> json) {
+    if (json['userLists'] != null) {
+      json['userLists'].forEach((v) {
+        groceriesList.add(GroceryListController.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (groceriesList.isNotEmpty) {
+      data['userLists'] = groceriesList.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
 _UserListsController _singleton = _UserListsController();

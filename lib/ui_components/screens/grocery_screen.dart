@@ -33,6 +33,7 @@ class _GroceryScreenState extends State<GroceryScreen> {
       ),
       body: _screenList(),
       floatingActionButton: FloatingActionButton(
+        heroTag: "btn1",
         onPressed: () => _callDialog(context),
         tooltip: 'Novo item',
         child: const Icon(Icons.add),

@@ -1,6 +1,4 @@
 import 'package:mobx/mobx.dart';
-
-import 'grocery_list_controller.dart';
 part 'product_item_controller.g.dart';
 
 class ProductItemController = ProductItemControllerBase with _$ProductItemController;
@@ -9,7 +7,7 @@ abstract class ProductItemControllerBase with Store {
 
   ProductItemControllerBase(this.name);
 
-  final String name;
+  late final String name;
 
   @observable
   bool checked = false;
@@ -43,6 +41,23 @@ abstract class ProductItemControllerBase with Store {
     if(quantity > 1) {
       quantity--;
     }
+  }
+
+  ProductItemControllerBase.fromJson(Map<String, dynamic> json) {
+    name = json['productName'];
+    checked = json['checked'];
+    price = json['price'];
+    quantity = json['quantity'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['productName'] = name;
+    data['checked'] = checked;
+    data['price'] = price;
+    data['quantity'] = quantity;
+    data['partialTime'] = parcialPrice;
+    return data;
   }
 
 }

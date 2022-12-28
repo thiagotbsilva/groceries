@@ -62,11 +62,11 @@ class _GroceryItemState extends State<GroceryItem> {
                         widget.groceryController.itemsList[widget.index].name,
                       ),
                     ),
-                    _quantityButton(isPlus: false, index: widget.index),
+                    _quantityButton(isPlus: false, index: widget.index, tag: 'btn2${widget.index}'),
                     Text(
                         widget.groceryController.itemsList[widget.index].quantity.toString()
                     ),
-                    _quantityButton(isPlus: true, index: widget.index),
+                    _quantityButton(isPlus: true, index: widget.index, tag: 'btn3${widget.index}'),
                     const SizedBox(width: 5),
                     Container(
                       width: width * .21, height: 25,
@@ -141,11 +141,12 @@ class _GroceryItemState extends State<GroceryItem> {
     );
   }
 
-  Widget _quantityButton({required bool isPlus, required int index}) {
+  Widget _quantityButton({required bool isPlus, required int index, required String tag}) {
     return Container(
       height: 28, width: 28,
       margin: const EdgeInsets.symmetric(horizontal: 18),
       child: FloatingActionButton(
+        heroTag: tag,
         onPressed: () {
           if(isPlus) {
             widget.groceryController.itemsList[index].quantityPlus();

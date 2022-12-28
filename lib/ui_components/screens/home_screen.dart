@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import '../../controllers/user_groceries_lists_controller.dart';
+import '../../models/dbJson.dart';
 import 'grocery_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _init() async {
     await initializeDateFormatting('pt_BR');
     dateF = DateFormat('dd-MMM-yy', 'pt_BR');
+    DbController.instance.getDbData();
+    DbController.instance.fetchDocument();
   }
 
   @override
@@ -35,11 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Minhas Listas'),
       ),
       body: _listsWidget(),
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () => _listDialog(context),
-        tooltip: 'Novo item',
-        child: const Icon(Icons.add),
-      ), */
     );
   }
 
@@ -70,12 +68,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       ),
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: Colors.blue, // foreground
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _saveButton(),
+                      const SizedBox(width: 50),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white, backgroundColor: Colors.blue, // foreground
+                        ),
+                        onPressed: () => _listDialog(context),
+                        child: const Text('Nova Lista'),
+                      ),
+                    ],
                   ),
-                  onPressed: () => _listDialog(context),
-                  child: const Text('Nova Lista'),
                 ),
               ],
             ),
@@ -154,6 +162,36 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           );
         });
+  }
+
+  Widget _saveButton() {
+    return InkWell(
+      onTap: () {
+        DbController.instance.createDbInstance().then((value) {
+          showDialog(context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text(
+                      value
+                          ? 'Salvo com sucesso'
+                          : 'Erro ao salvar, tente novamente'
+                  ),
+                );
+              });
+        });
+      },
+      splashColor: Colors.grey[300],
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(100)),
+            color: Colors.grey[200]),
+        child: const Icon(
+          Icons.save,
+          size: 20,
+        ),
+      ),
+    );
   }
 
   void _insertNewList() {

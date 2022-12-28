@@ -8,8 +8,8 @@ abstract class GroceryListControllerBase with Store {
 
   GroceryListControllerBase(this.listName, this.date);
 
-  final String listName;
-  final DateTime date;
+  late final String listName;
+  late final DateTime date;
 
   ObservableList<ProductItemController> itemsList = ObservableList<ProductItemController>();
 
@@ -33,6 +33,28 @@ abstract class GroceryListControllerBase with Store {
       partialValue += element.parcialPrice;
     }
     totalPrice = partialValue;
+  }
+
+  GroceryListControllerBase.fromJson(Map<String, dynamic> json) {
+    listName = json['listName'];
+    date = DateTime.now();
+    if (json['listOfItems'] != null) {
+      json['listOfItems'].forEach((v) {
+        itemsList.add(ProductItemController.fromJson(v));
+      });
+    }
+    totalPrice = json['totalPrice'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['listName'] = listName;
+    data['date'] = '2022-10-06T19:10:00';
+    if (itemsList.isNotEmpty) {
+      data['listOfItems'] = itemsList.map((v) => v.toJson()).toList();
+    }
+    data['totalPrice'] = totalPrice;
+    return data;
   }
 
 }
