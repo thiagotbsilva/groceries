@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:new_project_test/ui_components/screens/teste.dart';
 import '../../controllers/user_groceries_lists_controller.dart';
 import '../../models/dbJson.dart';
 import 'grocery_screen.dart';
@@ -97,8 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => GroceryScreen(
-              groceryList: singletonControler.groceriesList[index])),
+          MaterialPageRoute(builder: (context) => Teste()),
         );
       },
       title: Text(
@@ -202,8 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Future.delayed(const Duration(milliseconds: 400), () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => GroceryScreen(
-            groceryList: singletonControler.groceriesList.last)),
+        MaterialPageRoute(builder: (context) => Teste()),
       );
     });
   }
